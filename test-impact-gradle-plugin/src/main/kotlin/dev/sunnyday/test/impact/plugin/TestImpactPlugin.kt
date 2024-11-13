@@ -95,10 +95,10 @@ class TestImpactPlugin : Plugin<Project> {
         }
 
         private fun setupTestTaskDependency(testTask: Task) {
-            val testImpactTask = testImpactTaskProvider.get()
-
             testTask.apply {
-                dependsOn(testImpactTask.path)
+                if (extension.runTestImpactAfterTestTasks) {
+                    dependsOn(testImpactTaskProvider.get().path)
+                }
 
                 val testImpactTaskOutputProvider = testImpactTaskOutputProvider
                 val testProjectPath = testTask.project.path
@@ -115,7 +115,7 @@ class TestImpactPlugin : Plugin<Project> {
 
             val startTasks = startParameterTaskNamesProvider.get()
             if (startTasks.last() == getTestImpactStartTaskName()) {
-                testImpactTask.finalizedBy(testTask.path)
+                testImpactTaskProvider.get().finalizedBy(testTask.path)
             }
         }
 
