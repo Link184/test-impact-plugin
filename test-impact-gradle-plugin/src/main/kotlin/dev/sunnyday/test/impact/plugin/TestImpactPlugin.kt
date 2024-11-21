@@ -29,7 +29,7 @@ class TestImpactPlugin : Plugin<Project> {
         private val testImpactTaskProvider = registerTestImpactTask()
 
         fun apply() {
-            if (!isGradleStartedForTestImpact()) {
+            if (extension.enabled && !isGradleStartedForTestImpact()) {
                 return
             }
 
@@ -96,9 +96,7 @@ class TestImpactPlugin : Plugin<Project> {
 
         private fun setupTestTaskDependency(testTask: Task) {
             testTask.apply {
-                if (extension.runTestImpactAfterTestTasks) {
-                    dependsOn(testImpactTaskProvider.get().path)
-                }
+                dependsOn(testImpactTaskProvider.get().path)
 
                 val testImpactTaskOutputProvider = testImpactTaskOutputProvider
                 val testProjectPath = testTask.project.path
