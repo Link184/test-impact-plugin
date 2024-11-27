@@ -15,9 +15,6 @@ internal class ProjectGraphResolver(
     private val graph = projects.values.associateTo(hashMapOf()) { it.path to mutableListOf<ProjectPath>() }
     private val pathTrie = buildProjectsPathTrie(projects.values)
 
-    var isCompleted: Boolean = false
-        private set
-
     private fun getProjectsMap(rootProject: Project): Map<String, ImpactProject> {
         return hashMapOf<String, ImpactProject>().apply {
             val projectsQueue = ArrayDeque<Project>()
@@ -66,10 +63,6 @@ internal class ProjectGraphResolver(
             graph = graph,
             filePathTrie = pathTrie,
         )
-    }
-
-    fun markGraphCompleted() {
-        isCompleted = true
     }
 
     private fun buildProjectsPathTrie(projects: Iterable<ImpactProject>): ProjectFilePathTrie {

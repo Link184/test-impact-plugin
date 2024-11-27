@@ -29,7 +29,7 @@ class TestImpactPlugin : Plugin<Project> {
         private val testImpactTaskProvider = registerTestImpactTask()
 
         fun apply() {
-            if (extension.enabled && !isGradleStartedForTestImpact()) {
+            if (!isGradleStartedForTestImpact()) {
                 return
             }
 
@@ -81,7 +81,6 @@ class TestImpactPlugin : Plugin<Project> {
             val graphResolver = graphResolverProvider.get()
 
             iterateOverProjects(graphResolver::onProjectEvaluated)
-            graphResolver.markGraphCompleted()
         }
 
         private fun buildTestImpactTasksGraph() {

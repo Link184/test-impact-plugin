@@ -46,6 +46,7 @@ open class TestImpactTask : DefaultTask() {
         val queue = ArrayDeque(changedProjects)
         while (queue.isNotEmpty()) {
             val project = queue.removeFirst()
+            logger.lifecycle("TestImpact: ${project.path} module has changes or depends on changed module.")
             project.hasChanges = true
 
             graph.getDependentProjects(project).forEach { dependentProject ->

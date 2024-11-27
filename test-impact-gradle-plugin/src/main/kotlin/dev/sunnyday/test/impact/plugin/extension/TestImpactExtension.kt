@@ -4,10 +4,6 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 
 open class TestImpactExtension {
-
-    @get:Internal
-    var enabled = true
-
     @get:Internal
     var testTaskNameProvider: TestTaskNameProvider = TestTaskNameProvider { listOf("test") }
 
