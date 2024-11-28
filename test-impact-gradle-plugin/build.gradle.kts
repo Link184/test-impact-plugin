@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.kotlin.dsl)
-    `maven-publish`
+    id("com.vanniktech.maven.publish") version "0.30.0"
 }
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.github.lalyos:jfiglet:0.0.9")
 }
 
 tasks.test {
@@ -20,20 +21,8 @@ gradlePlugin {
         register("test-impact") {
             description = ""
             displayName = "Test impact"
-            id = "dev.sunnyday.test-impact-plugin"
+            id = "com.link184.test-impact-plugin"
             implementationClass = "dev.sunnyday.test.impact.plugin.TestImpactPlugin"
-        }
-    }
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            group = "dev.sunnyday.test-impact"
-            artifactId = "test-impact-gradle-plugin"
-            version = "0.1.0"
-
-            from(components["kotlin"])
         }
     }
 }
