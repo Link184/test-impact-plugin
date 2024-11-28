@@ -17,13 +17,16 @@ import java.io.File
 open class TestImpactTask : DefaultTask() {
 
     @get:Nested
-    internal lateinit var changesSource: ChangesSource
+    internal lateinit var changedFiles: List<String>
 
     @get:Input
     internal lateinit var inputImpactGraph: ImpactProjectGraph
 
     @get:Internal
     internal lateinit var taskOutput: TestImpactTaskOutput
+
+    @get:Internal
+    internal lateinit var projectName: String
 
     @get:OutputFile
     internal val outputFile: File
@@ -38,7 +41,7 @@ open class TestImpactTask : DefaultTask() {
         // TODO: parse packages and collect necessary tests (at least by package)
 
         val graph = inputImpactGraph.clone()
-        markChangedProjects(graph, changesSource.getChangedFiles())
+        markChangedProjects(graph, changedFiles)
 
         taskOutput.writeImpactGraph(graph)
     }
@@ -53,7 +56,7 @@ open class TestImpactTask : DefaultTask() {
             return changedProjects
         }
 
-        logger.lifecycle(FigletFont.convertOneLine("${project.rootProject.name} test impact"))
+        logger.lifecycle(FigletFont.convertOneLine("$projectName test impact"))
         logger.lifecycle("[TestImpact] Changed or affected by changes modules:")
         logger.lifecycle("[TestImpact] -----------------------------------------------------------")
         val queue = ArrayDeque(changedProjects)

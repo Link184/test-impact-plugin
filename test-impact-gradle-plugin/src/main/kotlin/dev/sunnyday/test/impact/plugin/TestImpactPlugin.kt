@@ -55,7 +55,7 @@ class TestImpactPlugin : Plugin<Project> {
         private fun registerTestImpactTask(): TaskProvider<TestImpactTask> {
             return target.tasks.register("testImpact", TestImpactTask::class.java) {
                 group = "verification"
-
+                projectName = target.name
                 if (!(isWrapperTask() || isGradleStartedForTestImpact())) {
                     throw IllegalStateException(
                         """
@@ -65,7 +65,7 @@ class TestImpactPlugin : Plugin<Project> {
                     )
                 }
 
-                changesSource = extension.changesSource
+                changedFiles = extension.changesSource.getChangedFiles()
                 inputImpactGraph = graphResolverProvider.get().getProjectsGraph()
                 taskOutput = testImpactTaskOutputProvider.get()
             }
