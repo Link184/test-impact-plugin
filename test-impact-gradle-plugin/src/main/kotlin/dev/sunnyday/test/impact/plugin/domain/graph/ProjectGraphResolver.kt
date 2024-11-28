@@ -40,9 +40,9 @@ internal class ProjectGraphResolver(
         val impactProject = projects.getValue(project.path)
 
         var isRemovedFromRoots = false
-
+        val configurationNameRegEx = "(?i).*(api|implementation)$".toRegex()
         project.configurations
-            .filter { it.name.endsWith("implementation", ignoreCase = true) }
+            .filter { it.name.matches(configurationNameRegEx) }
             .flatMap { configuration ->
                 configuration.dependencies.withType<ProjectDependency>()
                     .map { dependency -> configuration to dependency }
