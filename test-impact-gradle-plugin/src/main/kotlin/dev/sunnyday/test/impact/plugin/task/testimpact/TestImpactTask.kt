@@ -10,8 +10,10 @@ import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Nested
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
+import org.gradle.work.DisableCachingByDefault
 import java.io.File
 
+@DisableCachingByDefault
 open class TestImpactTask : DefaultTask() {
 
     @get:Nested
@@ -26,6 +28,10 @@ open class TestImpactTask : DefaultTask() {
     @get:OutputFile
     internal val outputFile: File
         get() = taskOutput.file
+
+    init {
+        outputs.upToDateWhen { false }
+    }
 
     @TaskAction
     fun run() {
