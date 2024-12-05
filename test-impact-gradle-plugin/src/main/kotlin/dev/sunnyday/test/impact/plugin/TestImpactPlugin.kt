@@ -26,7 +26,7 @@ class TestImpactPlugin : Plugin<Project> {
         private val startParameterTaskNamesProvider = registerStartParameterTaskNamesProvider()
         private val graphResolverProvider = registerGraphResolverProvider()
         private val testImpactTaskOutputProvider = registerTestImpactTaskOutputProvider()
-        private val testImpactTaskProvider = registerTestImpactTask()
+        private val testImpactTaskProvider by lazy { registerTestImpactTask() }
 
         fun apply() {
             if (!isGradleStartedForTestImpact()) {
